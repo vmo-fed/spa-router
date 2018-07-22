@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <div class="menu">
+        <a href="#home">home</a>
+        <a href="#book">book</a>
+        <a href="#music">music</a>
+    </div>
+    <div class="view"></div>
+</div>
+<script>
+    var view = document.querySelector('.view');
+    function hashView() {
+        switch (window.location.hash) {
+            case '#home':
+                view.innerHTML = 'home page';
+                break;
+            case '#book':
+                view.innerHTML = 'book page';
+                break;
+            case '#music':
+                view.innerHTML = 'music page';
+                break;
+            default:
+                view.innerHTML = '404 page';
+        }
+    }
+    hashView();
+    window.addEventListener('hashchange', function(){
+        console.log(window.location.hash)
+        hashView();
+    })
+</script>
+</body>
+</html>
