@@ -31,17 +31,43 @@
                 view.innerHTML = '404 page';
         }
     }
-    window.addEventListener('pushState', function(){
-        stateView()
-    }, false)
-    document.querySelectorAll('a').forEach(function(link){
-        link.addEventListener('click', function(e){
+    // method 0
+
+    // window.addEventListener('pushState', function(){
+    //     stateView()
+    // }, false)
+    // document.querySelectorAll('a').forEach(function(link){
+    //     link.addEventListener('click', function(e){
+    //         e.preventDefault();
+    //         window.history.pushState(null, null, this.getAttribute('link'))
+    //         window.dispatchEvent(pushStateEvent);
+    //     })
+    // })
+
+    // method 1
+    var event = {
+        router: {},
+        on: function(key, callback) {
+            this.router[key] = this.router[key] || [];
+            this.router[key].push(callback);
+        },
+        emit: function(key, data) {
+            if(!this.router[key]) return;
+            this.router[key].forEach(fn => {
+                fn(data);
+            })
+        }
+    }
+    event.on('pushState', function() {
+        stateView();
+    });
+    document.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
-            window.history.pushState(null, null, this.getAttribute('link'))
-            window.dispatchEvent(pushStateEvent);
+            window.history.pushState(null, null, this.getAttribute('link'));
+            event.emit('pushState');
         })
     })
-
 
 </script>
 </body>
